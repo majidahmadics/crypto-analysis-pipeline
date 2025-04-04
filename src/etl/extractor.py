@@ -21,6 +21,7 @@ class CryptoExtractor:
     def extract_ohlcv(self, period="1y", interval="1d"):
         """Extract OHLCV data using yfinance."""
         data = yf.download(self.ticker, period=period, interval=interval)
+        data.columns = data.columns.droplevel(1)
         data.reset_index(inplace=True)
         return data
 
