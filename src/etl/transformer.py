@@ -15,18 +15,17 @@ class CryptoTransformer:
         self.raw_data_dir = os.path.join(os.getcwd(), 'data', 'raw')
         self.processed_data_dir = os.path.join(os.getcwd(), 'data', 'processed')
 
-    def load_raw_data(self, ohlcv_path: str = 'BTC-USD', news_path: str = 'BTC-USD'):
+    def load_raw_data(self, ohlcv_path: str, news_path: str):
         """
         Load OHLCV and News data from the raw data directory.
         """
-        
         # Load OHLCV data
-        ohlcv_file = os.path.join(self.raw_data_dir, f'{ohlcv_path}_ohlcv.csv')
+        ohlcv_file = os.path.join(self.raw_data_dir, f'{ohlcv_path.replace('/', '-')}_ohlcv.csv')
         self.ohlcv = pd.read_csv(ohlcv_file)
         self.ohlcv['Date'] = pd.to_datetime(self.ohlcv['Date']).dt.strftime('%Y-%m-%d')
 
         # Load News data
-        news_file = os.path.join(self.raw_data_dir, f'{news_path}_news.json')
+        news_file = os.path.join(self.raw_data_dir, f'{news_path.replace('/', '-')}_news.json')
         with open(news_file, 'r') as file:
             data = json.load(file)
 
@@ -59,10 +58,10 @@ class CryptoTransformer:
         self.news_ohlc['SMA_Medium'] = SMAIndicator(close=self.news_ohlc['Close'], window=50).sma_indicator()
         self.news_ohlc['SMA_Long'] = SMAIndicator(close=self.news_ohlc['Close'], window=200).sma_indicator()
 
-    def save_processed_data(self, processed_path: str = 'BTC-USD'):
+    def save_processed_data(self, processed_path: str):
         """
         Save the processed DataFrame to the processed data directory.
         """
-        processed_file = os.path.join(self.processed_data_dir, f'{processed_path}_transformed.csv')
+        processed_file = os.path.join(self.processed_data_dir, f'{processed_path.replace('/', '-')}_transformed.csv')
         self.news_ohlc.to_csv(processed_file, index=False)
         print(f"Processed data saved to {processed_file}")
