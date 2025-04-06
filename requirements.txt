@@ -12,6 +12,8 @@ beautifulsoup4
 sqlalchemy
 psycopg2-binary
 apache-airflow
+ta
+ccxt
 
 # ML components
 tensorflow
