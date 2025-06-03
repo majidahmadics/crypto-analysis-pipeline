@@ -23,6 +23,7 @@ mlflow
 # API & Dashboard
 fastapi
 uvicorn
+gunicorn
 plotly
 dash
 
